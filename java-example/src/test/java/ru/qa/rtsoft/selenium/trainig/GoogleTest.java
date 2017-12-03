@@ -10,6 +10,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -33,10 +34,13 @@ public class GoogleTest {
     //driver = new EdgeDriver(caps);
     //System.out.println(((HasCapabilities) driver).getCapabilities());
 
-    DesiredCapabilities caps = new DesiredCapabilities();
+    FirefoxOptions options = new FirefoxOptions().setLegacy(true).setBinary("c:\\Program Files\\Mozilla Firefox ESR\\firefox.exe");
+    driver = new FirefoxDriver(options);
+
+    /*DesiredCapabilities caps = new DesiredCapabilities();
     caps.setCapability(FirefoxDriver.MARIONETTE, false);
     driver = new FirefoxDriver(new FirefoxBinary(new File("\"C:\\Program Files\\Mozilla Firefox ESR\\firefox.exe\"")), new FirefoxProfile(), caps);
-    System.out.println(((HasCapabilities) driver).getCapabilities());
+    System.out.println(((HasCapabilities) driver).getCapabilities());*/
 
     //driver = new ChromeDriver();
     //driver = new FirefoxDriver();

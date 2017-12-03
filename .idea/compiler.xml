@@ -6,6 +6,8 @@
       <module name="java-example_test" target="1.8" />
       <module name="litecart_main" target="1.8" />
       <module name="litecart_test" target="1.8" />
+      <module name="selenium-main_main" target="1.8" />
+      <module name="selenium-main_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

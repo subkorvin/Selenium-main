@@ -8,6 +8,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/litecart.iml" filepath="$PROJECT_DIR$/.idea/modules/litecart.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/litecart_main.iml" filepath="$PROJECT_DIR$/.idea/modules/litecart_main.iml" group="litecart" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/litecart_test.iml" filepath="$PROJECT_DIR$/.idea/modules/litecart_test.iml" group="litecart" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/selenium-main.iml" filepath="$PROJECT_DIR$/.idea/modules/selenium-main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/selenium-main_main.iml" filepath="$PROJECT_DIR$/.idea/modules/selenium-main_main.iml" group="selenium-main" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/selenium-main_test.iml" filepath="$PROJECT_DIR$/.idea/modules/selenium-main_test.iml" group="selenium-main" />
     </modules>
   </component>
 </project>
