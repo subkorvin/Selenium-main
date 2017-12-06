@@ -2,15 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Selenium-main.iml" filepath="$PROJECT_DIR$/.idea/modules/Selenium-main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/java-example.iml" filepath="$PROJECT_DIR$/.idea/modules/java-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/java-example_main.iml" filepath="$PROJECT_DIR$/.idea/modules/java-example_main.iml" group="java-example" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/java-example_test.iml" filepath="$PROJECT_DIR$/.idea/modules/java-example_test.iml" group="java-example" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/litecart.iml" filepath="$PROJECT_DIR$/.idea/modules/litecart.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/litecart_main.iml" filepath="$PROJECT_DIR$/.idea/modules/litecart_main.iml" group="litecart" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/litecart_test.iml" filepath="$PROJECT_DIR$/.idea/modules/litecart_test.iml" group="litecart" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/selenium-main.iml" filepath="$PROJECT_DIR$/.idea/modules/selenium-main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/selenium-main_main.iml" filepath="$PROJECT_DIR$/.idea/modules/selenium-main_main.iml" group="selenium-main" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/selenium-main_test.iml" filepath="$PROJECT_DIR$/.idea/modules/selenium-main_test.iml" group="selenium-main" />
     </modules>
   </component>
 </project>
