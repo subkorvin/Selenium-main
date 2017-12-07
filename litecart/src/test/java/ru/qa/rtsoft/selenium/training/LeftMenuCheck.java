@@ -1,33 +1,46 @@
 package ru.qa.rtsoft.selenium.training;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LeftMenuCheck extends TestBase {
 
   @Test
-  public void leftMenuCheck() throws InterruptedException {
+  public void leftMenuCheck() {
     AdminLoginTest login = new AdminLoginTest();
     login.adminLoginTest();
-    List<WebElement> leftmenu = driver.findElements(By.cssSelector(".list-vertical #app-"));
+    List<String> menunameslist = new ArrayList<>();
+    List<WebElement> leftmenu = driver.findElements(By.cssSelector(".list-vertical #app- .name"));
+
+
     for (WebElement menuitem : leftmenu) {
-      String menuname = menuitem.findElement(By.cssSelector(".name")).getText();
-      System.out.println(menuname);
-      String locator = "//ul[@class='list-vertical']/li[@id='app-']//span" + "[contains(., '" + menuname + "')]";
-      System.out.println(locator);
-      menuitem.findElement(By.xpath("" + locator + "")).click();
+      String menuname = menuitem.getText();
+      menunameslist.add(menuname);
+    }
 
-
-//      WebElement w = driver.findElement(By.xpath("//ul[@class='list-vertical']/li[@id='app-'][2]"));
-//      String m1 = driver.findElement(By.xpath("//ul[@class='list-vertical']/li[@id='app-'][2]")).getText();
-//      String m2 = menuitem.findElement(By.cssSelector(".name")).getText();
-//      menuitem.findElement(By.cssSelector(".name")).click();
-
-
-      Thread.sleep(1500);
+    for (String menuname : menunameslist) {
+      String menulocator = "//ul[@class='list-vertical']/li[@id='app-']//span" + "[contains(., '" + menuname + "')]";
+      driver.findElement(By.xpath("" + menulocator + "")).click();
+      Assert.assertTrue(isElementPresent(By.cssSelector("h1[style*='margin-top']")));
+      List<String> submenunameslist = new ArrayList<>();
+      if (isElementPresent(By.cssSelector(".list-vertical #app- .docs"))) {
+        List<WebElement> submenu = driver.findElements(By.cssSelector(".list-vertical #app- .docs .name"));
+        for (WebElement submenuitem : submenu) {
+          String submenuname = submenuitem.getText();
+          submenunameslist.add(submenuname);
+        }
+        for (String submenuname : submenunameslist) {
+          String submenulocator = "//ul[@class='list-vertical']/li[@id='app-']/ul[@class='docs']//span" + "[contains(., '" + submenuname + "')]";
+          driver.findElement(By.xpath("" + submenulocator + "")).click();
+          //Assert.assertTrue(isElementPresent(By.cssSelector("h1")));
+          Assert.assertTrue(isElementPresent(By.cssSelector("h1[style*='margin-top']")));
+        }
+      }
     }
   }
 }
