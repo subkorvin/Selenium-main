@@ -5,6 +5,9 @@ import org.junit.Before;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
@@ -43,10 +46,18 @@ public class TestBase {
     options.addArguments("start-maximized").addArguments("disable-infobars");
     driver = new ChromeDriver(options);
 
-    // инициализация Firefox по-новому
+    // инициализация Firefox
     //driver = new FirefoxDriver();
 
-    driver.manage().window().maximize();
+    // инициализация Firefox ESR
+//    FirefoxOptions options = new FirefoxOptions().setLegacy(true).setBinary("c:\\Program Files\\Mozilla Firefox ESR\\firefox.exe");
+//    driver = new FirefoxDriver(options);
+
+    // инициализация InternetExplorer
+    //driver = new InternetExplorerDriver();
+
+    //driver.manage().window().maximize();
+
     driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); //неявное ожидание
     wait = new WebDriverWait(driver, 10);
   }
