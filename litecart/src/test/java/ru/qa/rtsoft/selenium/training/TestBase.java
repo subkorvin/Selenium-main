@@ -48,17 +48,18 @@ public class TestBase {
     options.addArguments("start-maximized").addArguments("disable-infobars");
     driver = new ChromeDriver(options);
 
-    // инициализация Firefox
-    //driver = new FirefoxDriver();
+//    инициализация Firefox
+//    driver = new FirefoxDriver();
 
     // инициализация Firefox ESR
 //    FirefoxOptions options = new FirefoxOptions().setLegacy(true).setBinary("c:\\Program Files\\Mozilla Firefox ESR\\firefox.exe");
 //    driver = new FirefoxDriver(options);
 
-    // инициализация InternetExplorer
-    //driver = new InternetExplorerDriver();
+//     инициализация InternetExplorer
+//    driver = new InternetExplorerDriver();
 
-    //driver.manage().window().maximize();
+
+//    driver.manage().window().maximize();
 
     driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); //неявное ожидание
     wait = new WebDriverWait(driver, 10);
@@ -73,10 +74,9 @@ public class TestBase {
     }
   }
 
-  protected List<String> parsingColorRGBA(String locator, String prop) {
+  protected List<String> parsingColorRGBA(String color) {
     // in list colors are enumerated: r(red), g(green), b(blue), a(alpha)
     List<String> colorRGBA = new ArrayList<>();
-    String n = driver.findElement(By.cssSelector(locator)).getCssValue(prop);
     VerbalExpression regex = VerbalExpression.regex().find("(")
             .capture().digit().count(0, 3).endCapture()
             .then(", ")
@@ -86,10 +86,10 @@ public class TestBase {
             .then(", ")
             .capture().digit().count(0, 3).endCapture()
             .build();
-    String r = regex.getText(n, 1);
-    String g = regex.getText(n, 2);
-    String b = regex.getText(n, 3);
-    String a = regex.getText(n, 4);
+    String r = regex.getText(color, 1);
+    String g = regex.getText(color, 2);
+    String b = regex.getText(color, 3);
+    String a = regex.getText(color, 4);
     colorRGBA.add(r);
     colorRGBA.add(g);
     colorRGBA.add(b);
@@ -97,10 +97,9 @@ public class TestBase {
     return colorRGBA;
   }
 
-  protected List<String> parsingColorRGB(String locator, String prop) {
+  protected List<String> parsingColorRGB(String color) {
     // in list colors are enumerated: r(red), g(green), b(blue)
     List<String> colorRGB = new ArrayList<>();
-    String n = driver.findElement(By.cssSelector(locator)).getCssValue(prop);
     VerbalExpression regex = VerbalExpression.regex().find("(")
             .capture().digit().count(0, 3).endCapture()
             .then(", ")
@@ -108,9 +107,9 @@ public class TestBase {
             .then(", ")
             .capture().digit().count(0, 3).endCapture()
             .build();
-    String r = regex.getText(n, 1);
-    String g = regex.getText(n, 2);
-    String b = regex.getText(n, 3);
+    String r = regex.getText(color, 1);
+    String g = regex.getText(color, 2);
+    String b = regex.getText(color, 3);
     colorRGB.add(r);
     colorRGB.add(g);
     colorRGB.add(b);
