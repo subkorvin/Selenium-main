@@ -55,4 +55,28 @@ public class CountrySorting extends TestBase {
       }
     }
   }
+
+  @Test
+  public void geoZonePageSorting(){
+    AdminLoginTest login = new AdminLoginTest();
+    login.adminLoginTest();
+    driver.navigate().to("http://localhost:8080/litecart/admin/?app=geo_zones&doc=geo_zones");
+    List<WebElement> geozones = driver.findElements(By.cssSelector(".dataTable .row td:nth-child(3) a"));
+    List<String> pageLinks = new ArrayList<>();
+    for (WebElement geozone : geozones){
+      pageLinks.add(geozone.getAttribute("href"));
+    }
+    for (String pagelink : pageLinks){
+      driver.navigate().to(pagelink);
+      List<String> geozonenames = new ArrayList<>();
+      List<String> geozonenamessorted = new ArrayList<>();
+      List<WebElement> geoZoneWeb = driver.findElements(By.cssSelector("#table-zones select[name*='zone_code'] option[selected='selected']"));
+      for (WebElement geoZoneName : geoZoneWeb){
+        geozonenames.add(geoZoneName.getAttribute("textContent"));
+        geozonenamessorted.add(geoZoneName.getAttribute("textContent"));
+        Collections.sort(geozonenamessorted);
+        Assert.assertTrue(geozonenames.equals(geozonenamessorted));
+      }
+    }
+  }
 }
