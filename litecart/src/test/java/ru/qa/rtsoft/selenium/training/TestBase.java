@@ -9,7 +9,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import ru.lanwen.verbalregex.VerbalExpression;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class TestBase {
@@ -70,4 +72,49 @@ public class TestBase {
       driver = null;
     }
   }
+
+  protected List<String> parsingColorRGBA(String locator, String prop) {
+    // in list colors are enumerated: r(red), g(green), b(blue), a(alpha)
+    List<String> colorRGBA = new ArrayList<>();
+    String n = driver.findElement(By.cssSelector(locator)).getCssValue(prop);
+    VerbalExpression regex = VerbalExpression.regex().find("(")
+            .capture().digit().count(0, 3).endCapture()
+            .then(", ")
+            .capture().digit().count(0, 3).endCapture()
+            .then(", ")
+            .capture().digit().count(0, 3).endCapture()
+            .then(", ")
+            .capture().digit().count(0, 3).endCapture()
+            .build();
+    String r = regex.getText(n, 1);
+    String g = regex.getText(n, 2);
+    String b = regex.getText(n, 3);
+    String a = regex.getText(n, 4);
+    colorRGBA.add(r);
+    colorRGBA.add(g);
+    colorRGBA.add(b);
+    colorRGBA.add(a);
+    return colorRGBA;
+  }
+
+  protected List<String> parsingColorRGB(String locator, String prop) {
+    // in list colors are enumerated: r(red), g(green), b(blue)
+    List<String> colorRGB = new ArrayList<>();
+    String n = driver.findElement(By.cssSelector(locator)).getCssValue(prop);
+    VerbalExpression regex = VerbalExpression.regex().find("(")
+            .capture().digit().count(0, 3).endCapture()
+            .then(", ")
+            .capture().digit().count(0, 3).endCapture()
+            .then(", ")
+            .capture().digit().count(0, 3).endCapture()
+            .build();
+    String r = regex.getText(n, 1);
+    String g = regex.getText(n, 2);
+    String b = regex.getText(n, 3);
+    colorRGB.add(r);
+    colorRGB.add(g);
+    colorRGB.add(b);
+    return colorRGB;
+  }
+
 }
