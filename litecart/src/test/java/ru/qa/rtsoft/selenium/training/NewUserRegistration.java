@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+import java.util.Random;
 
 
 public class NewUserRegistration extends TestBase {
@@ -16,13 +17,16 @@ public class NewUserRegistration extends TestBase {
   private String address = "Leninsky tupik";
   private String postcode = "12345";
   private String city = "Wrotslaw";
-  private String email = "444@1.ru";
+  private String email = null;
   private String phone = "1234567";
   private String password = "1";
 
 
   @Test
   public void newUserRegistration() {
+    Random random = new Random();
+    int n = random.nextInt(100000);
+    email = n + "@email.com";
     driver.navigate().to("http://localhost:8080/litecart");
     driver.findElement(By.cssSelector("form[name='login_form'] a")).click();
     driver.findElement(By.cssSelector("form[name='customer_form'] input[name='tax_id']")).sendKeys(taxId);
