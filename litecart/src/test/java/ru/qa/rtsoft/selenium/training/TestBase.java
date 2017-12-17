@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -21,11 +22,12 @@ public class TestBase {
 
   public boolean isElementPresent(By locator) {
     try {
-      //wait.until((WebDriver d) -> d.findElement(locator)); // явное ожидание элемента locator
+//      wait.until((WebDriver d) -> d.findElement(locator)); // явное ожидание элемента locator
       driver.findElement(locator); // при неявном ожидании
       return true;
-    } catch (NoSuchElementException ex) { // при неявном ожидании
-      //catch (TimeoutException ex){ // в случае явного ожидания функция until может вызвать TimeoutException
+    }
+        catch (NoSuchElementException ex) { // при неявном ожидании
+//      catch (TimeoutException ex){ // в случае явного ожидания функция until может вызвать TimeoutException
       return false;
     }
   }
@@ -50,16 +52,18 @@ public class TestBase {
 
 //    инициализация Firefox
 //    driver = new FirefoxDriver();
+//    driver.manage().window().maximize();
 
     // инициализация Firefox ESR
 //    FirefoxOptions options = new FirefoxOptions().setLegacy(true).setBinary("c:\\Program Files\\Mozilla Firefox ESR\\firefox.exe");
 //    driver = new FirefoxDriver(options);
+//    driver.manage().window().maximize();
 
 //     инициализация InternetExplorer
 //    driver = new InternetExplorerDriver();
 
 
-//    driver.manage().window().maximize();
+
 
     driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); //неявное ожидание
     wait = new WebDriverWait(driver, 10);
