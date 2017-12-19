@@ -20,14 +20,22 @@ public class TestBase {
   public static WebDriver driver;
   public static WebDriverWait wait;
 
-  public boolean isElementPresent(By locator) {
+  public boolean isElementPresent(By locator) { // функция наличия элемента при использовании неявного ожидания
     try {
-//      wait.until((WebDriver d) -> d.findElement(locator)); // явное ожидание элемента locator
-      driver.findElement(locator); // при неявном ожидании
+      driver.findElement(locator);
       return true;
     }
-        catch (NoSuchElementException ex) { // при неявном ожидании
-//      catch (TimeoutException ex){ // в случае явного ожидания функция until может вызвать TimeoutException
+        catch (NoSuchElementException ex) {
+      return false;
+    }
+  }
+
+  public boolean isElementPresentExplicit(By locator) {  //функция наличия элемента при использовании явного ожидания локатора
+    try {
+      wait.until((WebDriver d) -> d.findElement(locator));
+      return true;
+    }
+      catch (TimeoutException ex){
       return false;
     }
   }
@@ -45,6 +53,7 @@ public class TestBase {
     if (driver != null) {
       return;
     }
+
     // инициализация Chrome
     ChromeOptions options = new ChromeOptions();
     options.addArguments("start-maximized").addArguments("disable-infobars");
@@ -62,11 +71,8 @@ public class TestBase {
 //     инициализация InternetExplorer
 //    driver = new InternetExplorerDriver();
 
-
-
-
     driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); //неявное ожидание
-    wait = new WebDriverWait(driver, 10);
+    wait = new WebDriverWait(driver, 3); // тайм-аут явного ожидания
   }
 
 

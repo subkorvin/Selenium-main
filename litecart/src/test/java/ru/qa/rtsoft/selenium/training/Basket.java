@@ -15,12 +15,12 @@ public class Basket extends TestBase {
 
   @Test
   public void basket() {
-    driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+    driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);  //неявное ожидание в ноль
     driver.navigate().to("http://localhost:8080/litecart");
     int initialQuantity = Integer.parseInt(driver.findElement(By.cssSelector("#cart .quantity")).getAttribute("textContent"));
     for (int i = initialQuantity + 1; i < 4; i++) {
       driver.findElement(By.cssSelector(".content #box-most-popular li:first-child a[class='link']")).click();
-      if (driver.findElement(By.cssSelector("#box-product .images-wrapper")).getAttribute("innerText").equals("SALE")) {
+      if (isElementPresentExplicit(By.cssSelector(".buy_now select"))){
         WebElement size = driver.findElement(By.cssSelector(".buy_now select[name='options[Size]']"));
         Select sizeSelect = new Select(size);
         sizeSelect.selectByValue("Large");
@@ -45,7 +45,6 @@ public class Basket extends TestBase {
       WebElement tableSku = driver.findElement(By.xpath(locator));
       driver.findElement(By.cssSelector("#box-checkout-cart button[name='remove_cart_item']")).click();
       wait.until(ExpectedConditions.stalenessOf(tableSku));
-
     }
   }
 }
