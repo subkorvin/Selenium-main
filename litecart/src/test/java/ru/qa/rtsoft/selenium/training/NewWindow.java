@@ -2,16 +2,26 @@ package ru.qa.rtsoft.selenium.training;
 
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
 
 public class NewWindow extends TestBase {
 
 
   @Test
-  public void newWindow() throws InterruptedException {
+  public void newWindow() {
+    driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);  //неявное ожидание в ноль
+    wait = new WebDriverWait(driver, 10); // явное ожидание переставляем в 10 сек
     AdminLoginTest login = new AdminLoginTest();
     login.adminLoginTest();
     driver.navigate().to("http://localhost:8080/litecart/admin/?app=countries&doc=countries");
@@ -24,11 +34,33 @@ public class NewWindow extends TestBase {
         break;
       }
     }
+    String mainWindow = driver.getWindowHandle();
+    List<String> titles = new ArrayList<>();
+    titles.add("Wikipedia");
+    titles.add("International");
     List<WebElement> linkElements = driver.findElements(By.cssSelector("#content table a[target='_blank']"));
-    List<String> links = new ArrayList<>();
     for (WebElement linkElement : linkElements) {
-      String link = linkElement.getAttribute("href");
-      links.add(link);
+      Set<String> existingWindows = driver.getWindowHandles();
+      linkElement.click();
+      String newWindow = wait.until(anyWindowOtherThen(existingWindows));
+      driver.switchTo().window(newWindow);
+      wait.until(ExpectedConditions.or(ExpectedConditions.titleContains("Wikipedia"), (ExpectedConditions.titleContains("International"))));
+      driver.close();
+      driver.switchTo().window(mainWindow);
+
     }
+  }
+
+  public ExpectedCondition<String> anyWindowOtherThen(Set<String> existingWindows) {
+    return new ExpectedCondition<String>() {
+      @Nullable
+      @Override
+      public String apply(@Nullable WebDriver driver) {
+        assert driver != null;
+        Set<String> handles = driver.getWindowHandles();
+        handles.removeAll(existingWindows);
+        return handles.size()>0 ? handles.iterator().next(): null;
+      }
+    };
   }
 }
