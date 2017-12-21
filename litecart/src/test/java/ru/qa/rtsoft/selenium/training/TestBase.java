@@ -71,6 +71,10 @@ public class TestBase {
 //     инициализация InternetExplorer
 //    driver = new InternetExplorerDriver();
 
+    // инициализация Edge
+//    driver = new EdgeDriver();
+//    driver.manage().window().maximize();
+
     driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); //неявное ожидание
     wait = new WebDriverWait(driver, 3); // тайм-аут явного ожидания
   }

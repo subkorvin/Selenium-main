@@ -21,7 +21,7 @@ public class NewWindow extends TestBase {
   @Test
   public void newWindow() {
     driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);  //неявное ожидание в ноль
-    wait = new WebDriverWait(driver, 10); // явное ожидание переставляем в 10 сек
+    wait = new WebDriverWait(driver, 15); // явное ожидание переставляем в 10 сек
     AdminLoginTest login = new AdminLoginTest();
     login.adminLoginTest();
     driver.navigate().to("http://localhost:8080/litecart/admin/?app=countries&doc=countries");
