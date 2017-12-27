@@ -9,11 +9,16 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.LoggingPreferences;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.lanwen.verbalregex.VerbalExpression;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 public class TestBase {
 
@@ -49,15 +54,21 @@ public class TestBase {
   }
 
   @Before
-  public void start() {
+  public void start(){
     if (driver != null) {
       return;
     }
 
     // инициализация Chrome
+
+    DesiredCapabilities caps = DesiredCapabilities.chrome();
+    LoggingPreferences logPrefs = new LoggingPreferences();
+    logPrefs.enable(LogType.BROWSER, Level.ALL);
+    caps.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
     ChromeOptions options = new ChromeOptions();
     options.addArguments("start-maximized").addArguments("disable-infobars");
-    driver = new ChromeDriver(options);
+    caps.setCapability(ChromeOptions.CAPABILITY, options);
+    driver = new ChromeDriver(caps);
 
 //    инициализация Firefox
 //    driver = new FirefoxDriver();
@@ -74,6 +85,8 @@ public class TestBase {
     // инициализация Edge
 //    driver = new EdgeDriver();
 //    driver.manage().window().maximize();
+
+
 
     driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); //неявное ожидание
     wait = new WebDriverWait(driver, 3); // тайм-аут явного ожидания
