@@ -19,7 +19,11 @@ import java.util.logging.Level;
 public class Application {
 
   public WebDriver driver;
-  private WebDriverWait wait;
+  public WebDriverWait wait;
+
+  private MainPage mainPage;
+  private ArticlePage articlePage;
+  private CardPage cardPage;
 
   public Application() {
     // инициализация Chrome
@@ -32,7 +36,9 @@ public class Application {
     options.addArguments("start-maximized").addArguments("disable-infobars");
     caps.setCapability(ChromeOptions.CAPABILITY, options);
     driver = new ChromeDriver(options);
-
+    mainPage = new MainPage(driver);
+    articlePage = new ArticlePage(driver);
+    cardPage = new CardPage(driver);
 //    инициализация Firefox
 //    driver = new FirefoxDriver();
 //    driver.manage().window().maximize();
@@ -48,12 +54,28 @@ public class Application {
     // инициализация Edge
 //    driver = new EdgeDriver();
 //    driver.manage().window().maximize();
-
-
     driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); //неявное ожидание
     wait = new WebDriverWait(driver, 3); // тайм-аут явного ожидания
   }
 
+  public void quit(){
+    driver.quit();
+  }
+
+  public void addingToCard() {
+    mainPage.open();
+    int initialQuantity = mainPage.getInitialQuantity();
+    for (int i = initialQuantity + 1; i < 4; i++) {
+      articlePage.goToArticle();
+      articlePage.addToCard(initialQuantity, i);
+    }
+    mainPage.goToBasket();
+  }
+
+  public void removingFromCard() {
+    List<WebElement> checkoutElements = cardPage.getCardItems();
+    cardPage.removeFromCard(checkoutElements);
+  }
 
   public boolean isElementPresent(By locator) { // функция наличия элемента при использовании неявного ожидания
     try {
@@ -79,62 +101,6 @@ public class Application {
     } catch (InvalidSelectorException ex) {
       return false;
     }
-  }
-
-
-
-
-
-  public void removeFromCard(List<WebElement> checkoutElements) {
-    for (int i = 1; i <= checkoutElements.size(); i++) {
-      clickToStop(checkoutElements, i);
-      String contentFromArticle = driver.findElement(By.cssSelector("#checkout-cart-wrapper li:first-child form[name='cart_form']")).getAttribute("textContent");
-      VerbalExpression regex = VerbalExpression.regex().capture().find("RD").digit().count(3).endCapture().build();
-      String sku = regex.getText(contentFromArticle);
-      String locator = "//table[@class='dataTable rounded-corners']//td[contains(., '" + sku + "')]";
-      WebElement tableSku = driver.findElement(By.xpath(locator));
-      driver.findElement(By.cssSelector("#box-checkout-cart button[name='remove_cart_item']")).click();
-      wait.until(ExpectedConditions.stalenessOf(tableSku));
-    }
-  }
-
-  public void clickToStop(List<WebElement> checkoutElements, int i) {
-    if (i < checkoutElements.size()) {
-      driver.findElement(By.cssSelector("#box-checkout-cart .shortcuts li:first-child")).click();
-    }
-  }
-
-  public List<WebElement> getCardItems() {
-    return driver.findElements(By.cssSelector("#box-checkout-cart .item"));
-  }
-
-  public void goToMainPage() {
-    driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);  //неявное ожидание в ноль
-    driver.navigate().to("http://localhost:8080/litecart");
-  }
-
-  public int getInitialQuantity() {
-    return Integer.parseInt(driver.findElement(By.cssSelector("#cart .quantity")).getAttribute("textContent"));
-  }
-
-  public void addToCard(int initialQuantity, int i) {
-    if (isElementPresentExplicit(By.cssSelector(".buy_now select"))) {
-      WebElement size = driver.findElement(By.cssSelector(".buy_now select[name='options[Size]']"));
-      Select sizeSelect = new Select(size);
-      sizeSelect.selectByValue("Large");
-    }
-    driver.findElement(By.cssSelector(".content button[name='add_cart_product']")).click();
-    int quantity = initialQuantity + i;
-    wait.until(ExpectedConditions.attributeToBe(By.cssSelector("#cart .quantity"), "textContent", String.valueOf(quantity)));
-    driver.navigate().back();
-  }
-
-  public void leaveMainPage() {
-    driver.findElement(By.cssSelector(".content #box-most-popular li:first-child a[class='link']")).click();
-  }
-
-  public void goToBasket() {
-    driver.findElement(By.cssSelector("#cart a[class='link']")).click();
   }
 
 }
