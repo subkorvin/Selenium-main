@@ -1,5 +1,6 @@
 package ru.qa.rtsoft.selenium.training;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;

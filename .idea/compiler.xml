@@ -2,6 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="111_main" target="1.8" />
+      <module name="111_test" target="1.8" />
       <module name="java-example_main" target="1.8" />
       <module name="java-example_test" target="1.8" />
       <module name="litecart_main" target="1.8" />

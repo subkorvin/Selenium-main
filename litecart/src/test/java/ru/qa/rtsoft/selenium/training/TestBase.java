@@ -22,125 +22,96 @@ import java.util.logging.Level;
 
 public class TestBase {
 
-  public static WebDriver driver;
-  public static WebDriverWait wait;
-
-  public boolean isElementPresent(By locator) { // функция наличия элемента при использовании неявного ожидания
-    try {
-      driver.findElement(locator);
-      return true;
-    }
-        catch (NoSuchElementException ex) {
-      return false;
-    }
-  }
-
-  public boolean isElementPresentExplicit(By locator) {  //функция наличия элемента при использовании явного ожидания локатора
-    try {
-      wait.until((WebDriver d) -> d.findElement(locator));
-      return true;
-    }
-      catch (TimeoutException ex){
-      return false;
-    }
-  }
-
-  public boolean areElementsPresent(By locator) {
-    try {
-      return driver.findElements(locator).size() > 0;
-    } catch (InvalidSelectorException ex) {
-      return false;
-    }
-  }
+public Application app = new Application();
 
   @Before
   public void start(){
-    if (driver != null) {
+    if (app.driver != null) {
       return;
     }
 
-    // инициализация Chrome
-
-    DesiredCapabilities caps = DesiredCapabilities.chrome();
-    LoggingPreferences logPrefs = new LoggingPreferences();
-    logPrefs.enable(LogType.BROWSER, Level.ALL);
-    caps.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
-    ChromeOptions options = new ChromeOptions();
-    options.addArguments("start-maximized").addArguments("disable-infobars");
-    caps.setCapability(ChromeOptions.CAPABILITY, options);
-    driver = new ChromeDriver(caps);
-
-//    инициализация Firefox
-//    driver = new FirefoxDriver();
-//    driver.manage().window().maximize();
-
-    // инициализация Firefox ESR
-//    FirefoxOptions options = new FirefoxOptions().setLegacy(true).setBinary("c:\\Program Files\\Mozilla Firefox ESR\\firefox.exe");
-//    driver = new FirefoxDriver(options);
-//    driver.manage().window().maximize();
-
-//     инициализация InternetExplorer
-//    driver = new InternetExplorerDriver();
-
-    // инициализация Edge
-//    driver = new EdgeDriver();
-//    driver.manage().window().maximize();
-
-
-
-    driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); //неявное ожидание
-    wait = new WebDriverWait(driver, 3); // тайм-аут явного ожидания
+//    // инициализация Chrome
+//
+////    DesiredCapabilities caps = DesiredCapabilities.chrome();
+////    LoggingPreferences logPrefs = new LoggingPreferences();
+////    logPrefs.enable(LogType.BROWSER, Level.ALL);
+////    caps.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
+//    ChromeOptions options = new ChromeOptions();
+//    options.addArguments("start-maximized").addArguments("disable-infobars");
+////    caps.setCapability(ChromeOptions.CAPABILITY, options);
+//    driver = new ChromeDriver(options);
+//
+////    инициализация Firefox
+////    driver = new FirefoxDriver();
+////    driver.manage().window().maximize();
+//
+//    // инициализация Firefox ESR
+////    FirefoxOptions options = new FirefoxOptions().setLegacy(true).setBinary("c:\\Program Files\\Mozilla Firefox ESR\\firefox.exe");
+////    driver = new FirefoxDriver(options);
+////    driver.manage().window().maximize();
+//
+////     инициализация InternetExplorer
+////    driver = new InternetExplorerDriver();
+//
+//    // инициализация Edge
+////    driver = new EdgeDriver();
+////    driver.manage().window().maximize();
+//
+//
+//
+//    driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); //неявное ожидание
+//    wait = new WebDriverWait(driver, 3); // тайм-аут явного ожидания
   }
 
 
   @After
   public void stop() {
-    if (driver != null) {
-      driver.quit();
-      driver = null;
+    if (app.driver != null) {
+      app.driver.quit();
+      app.driver = null;
     }
   }
 
-  protected List<String> parsingColorRGBA(String color) {
-    // in list colors are enumerated: r(red), g(green), b(blue), a(alpha)
-    List<String> colorRGBA = new ArrayList<>();
-    VerbalExpression regex = VerbalExpression.regex().find("(")
-            .capture().digit().count(0, 3).endCapture()
-            .then(", ")
-            .capture().digit().count(0, 3).endCapture()
-            .then(", ")
-            .capture().digit().count(0, 3).endCapture()
-            .then(", ")
-            .capture().digit().count(0, 3).endCapture()
-            .build();
-    String r = regex.getText(color, 1);
-    String g = regex.getText(color, 2);
-    String b = regex.getText(color, 3);
-    String a = regex.getText(color, 4);
-    colorRGBA.add(r);
-    colorRGBA.add(g);
-    colorRGBA.add(b);
-    colorRGBA.add(a);
-    return colorRGBA;
-  }
-
-  protected List<String> parsingColorRGB(String color) {
-    // in list colors are enumerated: r(red), g(green), b(blue)
-    List<String> colorRGB = new ArrayList<>();
-    VerbalExpression regex = VerbalExpression.regex().find("(")
-            .capture().digit().count(0, 3).endCapture()
-            .then(", ")
-            .capture().digit().count(0, 3).endCapture()
-            .then(", ")
-            .capture().digit().count(0, 3).endCapture()
-            .build();
-    String r = regex.getText(color, 1);
-    String g = regex.getText(color, 2);
-    String b = regex.getText(color, 3);
-    colorRGB.add(r);
-    colorRGB.add(g);
-    colorRGB.add(b);
-    return colorRGB;
-  }
+//  protected List<String> parsingColorRGBA(String color) {
+//    // in list colors are enumerated: r(red), g(green), b(blue), a(alpha)
+//    List<String> colorRGBA = new ArrayList<>();
+//    VerbalExpression regex = VerbalExpression.regex().find("(")
+//            .capture().digit().count(0, 3).endCapture()
+//            .then(", ")
+//            .capture().digit().count(0, 3).endCapture()
+//            .then(", ")
+//            .capture().digit().count(0, 3).endCapture()
+//            .then(", ")
+//            .capture().digit().count(0, 3).endCapture()
+//            .build();
+//    String r = regex.getText(color, 1);
+//    String g = regex.getText(color, 2);
+//    String b = regex.getText(color, 3);
+//    String a = regex.getText(color, 4);
+//    colorRGBA.add(r);
+//    colorRGBA.add(g);
+//    colorRGBA.add(b);
+//    colorRGBA.add(a);
+//    return colorRGBA;
+//  }
+//
+//  protected List<String> parsingColorRGB(String color) {
+//    // in list colors are enumerated: r(red), g(green), b(blue)
+//    List<String> colorRGB = new ArrayList<>();
+//    VerbalExpression regex = VerbalExpression.regex().find("(")
+//            .capture().digit().count(0, 3).endCapture()
+//            .then(", ")
+//            .capture().digit().count(0, 3).endCapture()
+//            .then(", ")
+//            .capture().digit().count(0, 3).endCapture()
+//            .build();
+//    String r = regex.getText(color, 1);
+//    String g = regex.getText(color, 2);
+//    String b = regex.getText(color, 3);
+//    colorRGB.add(r);
+//    colorRGB.add(g);
+//    colorRGB.add(b);
+//    return colorRGB;
+//  }
 
 }
